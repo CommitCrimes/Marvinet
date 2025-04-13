@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - ./my_marvin.yml:/var/jenkins_home/jcasc_configs/my_marvin.yml
+      - ./job_dsl.groovy:/var/jenkins_home/job_dsl.groovy
+    environment:
+      - CASC_JENKINS_CONFIG=/var/jenkins_home/jcasc_configs
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+      - JENKINS_ADMIN_ID=admin
+      - JENKINS_ADMIN_PASSWORD=password
+    user: root
+    command:
+      - bash
+      - -c
+      - |
+        # Attendre que Jenkins soit prêt
+        while [ ! -f /var/jenkins_home/config.xml ]; do
+          sleep 5
+        done
+        
+        # Installer les plugins requis
+        /usr/local/bin/install-plugins.sh \
+          cloudbees-folder \
+          configuration-as-code \
+          credentials \
+          github \
+          instance-identity \
+          job-dsl \
+          script-security \
+          structs \
+          role-strategy \
+          ws-cleanup
+        
+        # Démarrer Jenkins
+        /sbin/tini -- /usr/local/bin/jenkins.sh
+
+volumes:
+  jenkins_data:
