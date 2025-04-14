@@ -11,6 +11,7 @@ services:
     volumes:
       - ./my_marvin.yml:/var/jenkins_home/casc_configs/my_marvin.yml
       - jenkins_data:/var/jenkins_home
+      - ./jenkins-dsl:/var/jenkins_home/dsl
     env_file:
       - .env
     environment:
