@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  jenkins:
+    build: .
+    container_name: my_marvin
+    restart: unless-stopped
+    ports:
+      - "9091:8080"
+      - "50000:50000"
+    volumes:
+      - ./my_marvin.yml:/var/jenkins_home/casc_configs/my_marvin.yml
+      - jenkins_data:/var/jenkins_home
+      - ./jenkins-dsl:/var/jenkins_home/dsl
+    env_file:
+      - .env
+    environment:
+      - CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/my_marvin.yml
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+
+volumes:
+  jenkins_data:
