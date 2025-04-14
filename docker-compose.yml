@@ -2,21 +2,20 @@ version: '3.8'
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts
+    build: .
     container_name: my_marvin
     restart: unless-stopped
     ports:
       - "9091:8080"
       - "50000:50000"
     volumes:
-      - ./jenkins:/var/jenkins_home/casc_configs
+      - ./my_marvin.yml:/var/jenkins_home/casc_configs/my_marvin.yml
       - jenkins_data:/var/jenkins_home
     env_file:
       - .env
     environment:
       - CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/my_marvin.yml
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-    command: --httpPort=8080
 
 volumes:
   jenkins_data:
