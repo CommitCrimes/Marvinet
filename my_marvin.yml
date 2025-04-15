@@ -1,6 +1,5 @@
 jenkins:
   systemMessage: "Welcome to the Chocolatine-Powered Marvin Jenkins Instance."
-
   securityRealm:
     local:
       allowsSignup: false
@@ -17,7 +16,7 @@ jenkins:
         - id: "nasso"
           name: "Nassim"
           password: "${USER_NASSO_PASSWORD}"
-
+  
   authorizationStrategy:
     roleBased:
       roles:
@@ -28,32 +27,37 @@ jenkins:
               - "Overall/Administer"
             entries:
               - user: "chocolateen"
-
           - name: "ape"
             description: "Pedagogical team member"
             permissions:
+              - "Overall/Read"
               - "Job/Build"
+              - "Job/Read"
               - "Job/Workspace"
             entries:
               - user: "i_dont_know"
-
           - name: "gorilla"
             description: "Group Obsessively Researching Innovation Linked to Learning and Accomplishment"
             permissions:
+              - "Overall/Read"
               - "Job/Build"
+              - "Job/Read"
               - "Job/Workspace"
               - "Job/Create"
               - "Job/Configure"
               - "Job/Delete"
               - "Job/Move"
-              - "Run/Delete"
+              - "Job/Cancel"
             entries:
               - user: "vaugie_g"
-
           - name: "assist"
             description: "Assistant"
             permissions:
+              - "Overall/Read"
               - "Job/Read"
               - "Job/Workspace"
             entries:
               - user: "nasso"
+
+jobs:
+  - file: /var/jenkins_home/job_dsl.groovy

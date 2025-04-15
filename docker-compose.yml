@@ -9,14 +9,11 @@ services:
       - "9091:8080"
       - "50000:50000"
     volumes:
-      - ./my_marvin.yml:/var/jenkins_home/casc_configs/my_marvin.yml
-      - jenkins_data:/var/jenkins_home
-      - ./jenkins-dsl:/var/jenkins_home/dsl
-    env_file:
-      - .env
+      - ./my_marvin.yml:/var/jenkins_home/my_marvin.yml
+      - ./job_dsl.groovy:/var/jenkins_home/job_dsl.groovy
     environment:
-      - CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/my_marvin.yml
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
-
-volumes:
-  jenkins_data:
+      - CASC_JENKINS_CONFIG=/var/jenkins_home/my_marvin.yml
+      - USER_CHOCOLATEEN_PASSWORD=${USER_CHOCOLATEEN_PASSWORD}
+      - USER_VAUGIE_G_PASSWORD=${USER_VAUGIE_G_PASSWORD}
+      - USER_I_DONT_KNOW_PASSWORD=${USER_I_DONT_KNOW_PASSWORD}
+      - USER_NASSO_PASSWORD=${USER_NASSO_PASSWORD}
